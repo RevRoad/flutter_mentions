@@ -3,20 +3,19 @@ part of flutter_mentions;
 /// A custom implementation of [TextEditingController] to support @ mention or other
 /// trigger based mentions.
 class AnnotationEditingController extends TextEditingController {
-  Map<String, Annotation> _mapping;
-  String? _pattern;
-
   // Generate the Regex pattern for matching all the suggestions in one.
   AnnotationEditingController(this._mapping) {
     _pattern = null;
 
     if (_mapping.keys.isNotEmpty) {
-      var result = _mapping.keys.map((key) => RegExp.escape(key)).toList();
-      result.sort((b, a) => a.toLowerCase().compareTo(b.toLowerCase()));
-      var finalresult = result.join('|');
-      _pattern = '($finalresult)(?![A-Za-z0-9_])';
+      final result = _mapping.keys.map((key) => RegExp.escape(key)).toList()
+        ..sort((b, a) => a.toLowerCase().compareTo(b.toLowerCase()));
+      final finalResult = result.join('|');
+      _pattern = '($finalResult)(?![A-Za-z0-9_])';
     }
   }
+  Map<String, Annotation> _mapping;
+  String? _pattern;
 
   /// Can be used to get the markup from the controller directly.
   String get markupText {
@@ -56,17 +55,16 @@ class AnnotationEditingController extends TextEditingController {
 
   set mapping(Map<String, Annotation> _mapping) {
     this._mapping = _mapping;
-
-    var result = _mapping.keys.map((key) => RegExp.escape(key)).toList();
-    result.sort((b, a) => a.toLowerCase().compareTo(b.toLowerCase()));
-    var finalresult = result.join('|');
-    _pattern = '($finalresult)(?![A-Za-z0-9_])';
+    final result = _mapping.keys.map((key) => RegExp.escape(key)).toList()
+      ..sort((b, a) => a.toLowerCase().compareTo(b.toLowerCase()));
+    final finalResult = result.join('|');
+    _pattern = '($finalResult)(?![A-Za-z0-9_])';
   }
 
   @override
   TextSpan buildTextSpan(
       {BuildContext? context, TextStyle? style, bool? withComposing}) {
-    var children = <InlineSpan>[];
+    final children = <InlineSpan>[];
 
     if (_pattern == null || _pattern == '()') {
       children.add(TextSpan(text: text, style: style));
