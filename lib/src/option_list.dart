@@ -1,19 +1,18 @@
 part of flutter_mentions;
 
 class OptionList extends StatelessWidget {
-  OptionList({
+  const OptionList({
     required this.data,
     required this.onTap,
     required this.suggestionListHeight,
     this.suggestionBuilder,
     this.suggestionListDecoration,
-  });
+    Key? key,
+  }) : super(key: key);
 
-  final Widget Function(Map<String, dynamic>)? suggestionBuilder;
-
-  final List<Map<String, dynamic>> data;
-
-  final Function(Map<String, dynamic>) onTap;
+  final Widget Function(MentionData)? suggestionBuilder;
+  final List<MentionData> data;
+  final Function(MentionData) onTap;
 
   final double suggestionListHeight;
 
@@ -23,11 +22,10 @@ class OptionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return data.isNotEmpty
         ? Container(
-            decoration:
-                suggestionListDecoration ?? BoxDecoration(color: Colors.white),
+            decoration: suggestionListDecoration ??
+                const BoxDecoration(color: Colors.white),
             constraints: BoxConstraints(
               maxHeight: suggestionListHeight,
-              minHeight: 0,
             ),
             child: ListView.builder(
               itemCount: data.length,
@@ -41,10 +39,10 @@ class OptionList extends StatelessWidget {
                       ? suggestionBuilder!(data[index])
                       : Container(
                           color: Colors.blue,
-                          padding: EdgeInsets.all(20.0),
+                          padding: const EdgeInsets.all(20),
                           child: Text(
-                            data[index]['display'],
-                            style: TextStyle(fontSize: 12),
+                            data[index].display,
+                            style: const TextStyle(fontSize: 12),
                           ),
                         ),
                 );
